@@ -23,7 +23,7 @@ private:
   color color_;
 };
 
-void draw(const rectangle& rect, sdl_renderer& renderer)
+inline void draw(const rectangle& rect, sdl_renderer& renderer)
 {
   rect.draw(renderer);
 }
