@@ -21,7 +21,7 @@ public:
 private:
   struct drawable_concept
   {
-    virtual ~drawable_concept() = default;
+    virtual ~drawable_concept();
     virtual void draw_(sdl_renderer& renderer) const = 0;
   };
 
