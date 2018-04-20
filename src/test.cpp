@@ -9,12 +9,7 @@
 #include "sdl_utils.h"
 #include "action.h"
 
-
-
-
-
-template<class... Ts> struct overloaded : Ts... { using Ts::operator()...; };
-template<class... Ts> overloaded(Ts...) -> overloaded<Ts...>;
+#include "overloaded.h"
 
 void loop_handler(void *arg)
 {

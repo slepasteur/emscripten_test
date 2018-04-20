@@ -1,0 +1,5 @@
+Test project to test emscripten and SDL.
+
+Dependencies:
+- Emscripten 1.37.36
+- Immer: https://github.com/arximboldi/immer
