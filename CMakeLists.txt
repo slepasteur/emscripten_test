@@ -12,9 +12,12 @@ set(EM_FLAGS "${EM_FLAGS} -s \"EXTRA_EXPORTED_RUNTIME_METHODS=['ccall','cwrap']\
 
 set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} ${EM_FLAGS}")
 
+include_directories(include)
+
 set(SOURCE_FILES
-  test.cpp
-  drawable.cpp
+  src/test.cpp
+  src/drawable.cpp
+  src/action.cpp
 )
 
 add_executable(em_test ${SOURCE_FILES})

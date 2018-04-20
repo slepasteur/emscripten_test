@@ -7,43 +7,10 @@
 #include "line.h"
 #include "sdl_context.h"
 #include "sdl_utils.h"
+#include "action.h"
 
 
-struct up{};
-struct down{};
-struct left{};
-struct right{};
 
-using input_event = std::variant<up, down, left, right>;
-
-std::vector<input_event> process_input()
-{
-  SDL_Event event;
-  std::vector<input_event> result;
-
-  while (SDL_PollEvent(&event)) {
-    switch (event.type) {
-      case SDL_KEYUP:
-        switch (event.key.keysym.sym) {
-          case SDLK_UP:
-            result.push_back(up{});
-            break;
-          case SDLK_DOWN:
-            result.push_back(down{});
-            break;
-          case SDLK_LEFT:
-            result.push_back(left{});
-            break;
-          case SDLK_RIGHT:
-            result.push_back(right{});
-            break;
-        }
-        break;
-    }
-  }
-
-  return result;
-}
 
 
 template<class... Ts> struct overloaded : Ts... { using Ts::operator()...; };
@@ -53,16 +20,16 @@ void loop_handler(void *arg)
 {
   sdl_context* ctx = static_cast<sdl_context*>(arg);
 
-  auto events = process_input();
+  auto actions = intents();
 
-  for (const auto& e : events)
+  for (const auto& a : actions)
   {
     std::visit(overloaded {
         [](up){ std::cout << "up\n"; },
         [](down){ std::cout << "down\n"; },
         [](left){ std::cout << "left\n"; },
         [](right){ std::cout << "right\n"; },
-        }, e);
+        }, a);
   }
 
   clear_background(color::white(), ctx->renderer());
