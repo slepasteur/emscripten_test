@@ -26,7 +26,9 @@ include_directories(include)
 
 set(SOURCE_FILES
   src/test.cpp
-  src/drawable.cpp
+  src/draw/drawable.cpp
+  src/draw/line.cpp
+  src/draw/rectangle.cpp
   src/action.cpp
 )
 

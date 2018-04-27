@@ -1,7 +1,7 @@
 #pragma once
 
-#include "color.h"
-#include "sdl_renderer.h"
+#include "draw/color.h"
+#include "sdl/sdl_renderer.h"
 
 inline void set_render_color(const color& c, sdl_renderer& renderer)
 {

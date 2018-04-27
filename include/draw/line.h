@@ -1,9 +1,9 @@
 #pragma once
 
-#include "color.h"
-#include "point.h"
-#include "sdl_renderer.h"
-#include "sdl_utils.h"
+#include "draw/color.h"
+#include "geometry/point.h"
+
+class sdl_renderer;
 
 struct line
 {
@@ -13,11 +13,7 @@ struct line
     color_{c}
   {}
   
-  void draw(sdl_renderer& renderer) const
-  {
-    set_render_color(color_, renderer);
-    SDL_RenderDrawLine(renderer.value(), begin_.x(), begin_.y(), end_.x(), end_.y());
-  }
+  void draw(sdl_renderer& renderer) const;
 
 private:
   point begin_;

@@ -2,8 +2,8 @@
 
 #include <memory>
 
-#include "rectangle.h"
-#include "sdl_renderer.h"
+#include "draw/rectangle.h"
+#include "sdl/sdl_renderer.h"
 
 class drawable
 {
