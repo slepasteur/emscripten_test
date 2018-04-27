@@ -2,7 +2,7 @@
 
 #include <vector>
 
-#include "drawable.h"
+#include "model.h"
 #include "sdl_renderer.h"
 
 class sdl_context
@@ -21,27 +21,15 @@ public:
   sdl_renderer& renderer() { return renderer_; }
   const sdl_renderer& renderer() const { return renderer_; }
 
-  const std::vector<drawable>& entities() const { return entities_; }
-
-  sdl_context add_entity(drawable e) &&
-  {
-    entities_.push_back(std::move(e));
-    return sdl_context{
-      std::move(window_),
-      std::move(renderer_),
-      std::move(entities_)
-    };
-  }
+  model& current_model() { return model_; }
 
 private:
-  sdl_context(sdl_window window, sdl_renderer renderer, std::vector<drawable> entities):
+  sdl_context(sdl_window window, sdl_renderer renderer):
     window_{std::move(window)},
-    renderer_{std::move(renderer)},
-    entities_{std::move(entities)}
+    renderer_{std::move(renderer)}
   {}
 
   sdl_window window_;
   sdl_renderer renderer_;
-
-  std::vector<drawable> entities_;
+  model model_;
 };

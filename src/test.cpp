@@ -29,7 +29,7 @@ void loop_handler(void *arg)
 
   clear_background(color::white(), ctx->renderer());
 
-  for (const auto& e : ctx->entities())
+  for (const auto& e : ctx->current_model().entities())
   {
     draw(e, ctx->renderer());
   }
@@ -41,11 +41,14 @@ void run()
 {
   SDL_Init(SDL_INIT_VIDEO);
 
-  auto ctx = sdl_context{800, 600}
+  auto ctx = sdl_context{800, 600};
+
+  auto m = model{}
     .add_entity(drawable(rectangle({0, 0}, 800, 600, color::black())))
     .add_entity(drawable(rectangle({50, 50}, 150, 75, color::red())))
     .add_entity(drawable(line({300, 200}, {500, 400}, color::blue())));
 
+  ctx.current_model() = m;
   emscripten_set_main_loop_arg(loop_handler, &ctx, -1, 1);
 }
 
