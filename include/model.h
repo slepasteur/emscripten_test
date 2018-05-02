@@ -1,19 +1,19 @@
 #pragma once
 
 #include <immer/vector.hpp>
-#include "draw/drawable.h"
+#include "entity.h"
 
 class model
 {
 public:
   model() {}
 
-  const immer::vector<drawable>& entities() const
+  const immer::vector<entity>& entities() const
   {
     return entities_;
   }
 
-  model add_entity(drawable e)
+  model add_entity(entity e)
   {
     return model{
       entities_.push_back(e)
@@ -21,10 +21,10 @@ public:
   }
 
 private:
-  model(immer::vector<drawable> entities):
+  model(immer::vector<entity> entities):
     entities_{std::move(entities)}
   {}
 
-  immer::vector<drawable> entities_;
+  immer::vector<entity> entities_;
 };
 

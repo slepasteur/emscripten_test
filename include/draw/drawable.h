@@ -5,6 +5,12 @@
 #include "draw/rectangle.h"
 #include "sdl/sdl_renderer.h"
 
+template <typename T>
+inline void draw(const T& t, sdl_renderer& renderer, const point& pos)
+{
+  t.draw(renderer, pos);
+}
+
 class drawable
 {
 public:
@@ -13,9 +19,9 @@ public:
     self_{std::make_shared<drawable_model<T>>(std::move(x))}
   {}
 
-  friend void draw(const drawable& e, sdl_renderer& renderer, const point& pos)
+  void draw(sdl_renderer& renderer, const point& pos) const
   {
-    e.self_->draw_(renderer, pos);
+    self_->draw_(renderer, pos);
   }
 
 private:
@@ -34,7 +40,7 @@ private:
 
     void draw_(sdl_renderer& renderer, const point& pos) const override
     {
-      draw(data_, renderer, pos);
+      ::draw(data_, renderer, pos);
     }
 
     T data_;
@@ -42,3 +48,5 @@ private:
 
   std::shared_ptr<const drawable_concept> self_;
 };
+
+

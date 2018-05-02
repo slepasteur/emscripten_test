@@ -21,8 +21,3 @@ private:
   color color_;
 };
 
-inline void draw(const line& l, sdl_renderer& renderer, const point& pos)
-{
-  l.draw(renderer, pos);
-}
-

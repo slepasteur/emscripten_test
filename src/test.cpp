@@ -11,7 +11,21 @@
 
 #include "overloaded.h"
 
+constexpr auto orig = point{0,0};
 point pos;
+
+model update(model m, action a)
+{
+// TODO really update the model.
+  std::visit(overloaded {
+      [](up){ std::cout << "up\n";  pos = pos - point{0, 1}; },
+      [](down){ std::cout << "down\n"; pos = pos + point{0, 1}; },
+      [](left){ std::cout << "left\n"; pos = pos - point{1, 0}; },
+      [](right){ std::cout << "right\n"; pos = pos + point{1, 0}; },
+  }, a);
+
+  return m;
+}
 
 void loop_handler(void *arg)
 {
@@ -21,12 +35,7 @@ void loop_handler(void *arg)
 
   for (const auto& a : actions)
   {
-    std::visit(overloaded {
-        [](up){ std::cout << "up\n";  pos = pos - point{0, 1}; },
-        [](down){ std::cout << "down\n"; pos = pos + point{0, 1}; },
-        [](left){ std::cout << "left\n"; pos = pos - point{1, 0}; },
-        [](right){ std::cout << "right\n"; pos = pos + point{1, 0}; },
-        }, a);
+    ctx->current_model() = update(ctx->current_model(), a);
   }
 
   clear_background(color::white(), ctx->renderer());
@@ -46,9 +55,9 @@ void run()
   auto ctx = sdl_context{800, 600};
 
   auto m = model{}
-    .add_entity(drawable(rectangle(width{800}, height{600}, color::black())))
-    .add_entity(drawable(rectangle(width{150}, height{75}, color::red())))
-    .add_entity(drawable(line({300, 200}, {500, 400}, color::blue())));
+    .add_entity(entity{drawable(rectangle(width{800}, height{600}, color::black())), orig})
+    .add_entity(entity{drawable(rectangle(width{150}, height{75}, color::red())), orig})
+    .add_entity(entity{drawable(line({300, 200}, {500, 400}, color::blue())), orig});
 
   ctx.current_model() = m;
   emscripten_set_main_loop_arg(loop_handler, &ctx, -1, 1);

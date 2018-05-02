@@ -22,3 +22,4 @@ std::optional<action> intent(const SDL_Event& event);
  * Process all the SDL events and transform them into actions.
  */
 std::vector<action> intents();
+
