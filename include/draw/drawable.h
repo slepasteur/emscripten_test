@@ -13,16 +13,16 @@ public:
     self_{std::make_shared<drawable_model<T>>(std::move(x))}
   {}
 
-  friend void draw(const drawable& e, sdl_renderer& renderer)
+  friend void draw(const drawable& e, sdl_renderer& renderer, const point& pos)
   {
-    e.self_->draw_(renderer);
+    e.self_->draw_(renderer, pos);
   }
 
 private:
   struct drawable_concept
   {
     virtual ~drawable_concept();
-    virtual void draw_(sdl_renderer& renderer) const = 0;
+    virtual void draw_(sdl_renderer& renderer, const point& pos) const = 0;
   };
 
   template <typename T>
@@ -32,9 +32,9 @@ private:
       data_{std::move(x)}
     {}
 
-    void draw_(sdl_renderer& renderer) const override
+    void draw_(sdl_renderer& renderer, const point& pos) const override
     {
-      draw(data_, renderer);
+      draw(data_, renderer, pos);
     }
 
     T data_;

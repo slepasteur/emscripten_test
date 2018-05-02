@@ -3,9 +3,11 @@
 #include "sdl/sdl_renderer.h"
 #include "sdl/sdl_utils.h"
 
-void line::draw(sdl_renderer& renderer) const
+void line::draw(sdl_renderer& renderer, const point& pos) const
 {
   set_render_color(color_, renderer);
-  SDL_RenderDrawLine(renderer.value(), begin_.x(), begin_.y(), end_.x(), end_.y());
+  auto begin = begin_ + pos;
+  auto end = end_ + pos;
+  SDL_RenderDrawLine(renderer.value(), begin.x(), begin.y(), end.x(), end.y());
 }
 

@@ -3,6 +3,7 @@
 #include "draw/color.h"
 #include "geometry/height.h"
 #include "geometry/width.h"
+#include "geometry/point.h"
 
 class sdl_renderer;
 
@@ -14,7 +15,7 @@ struct rectangle
     color_{c}
   {}
   
-  void draw(sdl_renderer& renderer) const;
+  void draw(sdl_renderer& renderer, const point& pos) const;
 
 private:
   width width_;
@@ -22,7 +23,7 @@ private:
   color color_;
 };
 
-inline void draw(const rectangle& rect, sdl_renderer& renderer)
+inline void draw(const rectangle& rect, sdl_renderer& renderer, const point& pos)
 {
-  rect.draw(renderer);
+  rect.draw(renderer, pos);
 }

@@ -13,7 +13,7 @@ struct line
     color_{c}
   {}
   
-  void draw(sdl_renderer& renderer) const;
+  void draw(sdl_renderer& renderer, const point& pos) const;
 
 private:
   point begin_;
@@ -21,8 +21,8 @@ private:
   color color_;
 };
 
-inline void draw(const line& l, sdl_renderer& renderer)
+inline void draw(const line& l, sdl_renderer& renderer, const point& pos)
 {
-  l.draw(renderer);
+  l.draw(renderer, pos);
 }
 

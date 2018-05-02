@@ -11,6 +11,8 @@
 
 #include "overloaded.h"
 
+point pos;
+
 void loop_handler(void *arg)
 {
   sdl_context* ctx = static_cast<sdl_context*>(arg);
@@ -20,10 +22,10 @@ void loop_handler(void *arg)
   for (const auto& a : actions)
   {
     std::visit(overloaded {
-        [](up){ std::cout << "up\n"; },
-        [](down){ std::cout << "down\n"; },
-        [](left){ std::cout << "left\n"; },
-        [](right){ std::cout << "right\n"; },
+        [](up){ std::cout << "up\n";  pos = pos - point{0, 1}; },
+        [](down){ std::cout << "down\n"; pos = pos + point{0, 1}; },
+        [](left){ std::cout << "left\n"; pos = pos - point{1, 0}; },
+        [](right){ std::cout << "right\n"; pos = pos + point{1, 0}; },
         }, a);
   }
 
@@ -31,7 +33,7 @@ void loop_handler(void *arg)
 
   for (const auto& e : ctx->current_model().entities())
   {
-    draw(e, ctx->renderer());
+    draw(e, ctx->renderer(), pos);
   }
 
   render_present(ctx->renderer());
