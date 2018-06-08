@@ -17,6 +17,11 @@ std::optional<action> intent(const SDL_Event& event)
           return {right{}};
       }
       break;
+    case SDL_MOUSEBUTTONUP:
+      if (event.button.button == SDL_BUTTON_LEFT) {
+        return {selection{{event.button.x, event.button.y}}};
+      }
+      break;
   }
 
   return std::nullopt;

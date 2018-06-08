@@ -4,12 +4,15 @@
 #include <variant>
 #include <vector>
 
+#include "geometry/point.h"
+
 struct up{};
 struct down{};
 struct left{};
 struct right{};
+struct selection{ point coordinates_; };
 
-using action = std::variant<up, down, left, right>;
+using action = std::variant<up, down, left, right, selection>;
 
 union SDL_Event;
 

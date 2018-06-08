@@ -24,20 +24,35 @@ auto on_selected(F f)
 
 model update(model m, action a)
 {
-// TODO really update the model.
   return std::visit(overloaded {
-      [&](up){ std::cout << "up\n"; return m.update_entities(
-        on_selected( [](const auto& e){ return e.move(point{0, -1}); } )
-      ); },
-      [&](down){ std::cout << "down\n"; return m.update_entities(
-        on_selected( [](const auto& e){ return e.move(point{0, 1}); } )
-      ); },
-      [&](left){ std::cout << "left\n"; return m.update_entities(
-        on_selected( [](const auto& e){ return e.move(point{-1, 0}); } )
-      ); },
-      [&](right){ std::cout << "right\n"; return m.update_entities(
-        on_selected( [](const auto& e){ return e.move(point{1, 0}); } )
-      ); },
+      [&] (up) {
+        std::cout << "up\n";
+        return m.update_entities(
+          on_selected( [](const auto& e){ return e.move(point{0, -1}); } )
+        );
+      },
+      [&] (down) {
+        std::cout << "down\n";
+        return m.update_entities(
+          on_selected( [](const auto& e){ return e.move(point{0, 1}); } )
+        );
+      },
+      [&] (left) {
+        std::cout << "left\n";
+        return m.update_entities(
+          on_selected( [](const auto& e){ return e.move(point{-1, 0}); } )
+        );
+      },
+      [&] (right) {
+        std::cout << "right\n";
+        return m.update_entities(
+          on_selected( [](const auto& e){ return e.move(point{1, 0}); } )
+        );
+      },
+      [&] (selection s) { 
+        std::cout << "selecting: " << s.coordinates_.x() << ", " << s.coordinates_.y() << '\n';
+        return m;
+      }
   }, a);
 }
 
