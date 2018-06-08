@@ -5,7 +5,7 @@
 std::optional<action> intent(const SDL_Event& event)
 {
   switch (event.type) {
-    case SDL_KEYUP:
+    case SDL_KEYDOWN:
       switch (event.key.keysym.sym) {
         case SDLK_UP:
           return {up{}};

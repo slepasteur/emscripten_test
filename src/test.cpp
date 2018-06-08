@@ -14,17 +14,31 @@
 constexpr auto orig = point{0,0};
 point pos;
 
+template <typename F>
+auto on_selected(F f)
+{
+  return [f](const auto& e) {
+    return e.selected() ? f(e) : e;
+  };
+}
+
 model update(model m, action a)
 {
 // TODO really update the model.
-  std::visit(overloaded {
-      [](up){ std::cout << "up\n";  pos = pos - point{0, 1}; },
-      [](down){ std::cout << "down\n"; pos = pos + point{0, 1}; },
-      [](left){ std::cout << "left\n"; pos = pos - point{1, 0}; },
-      [](right){ std::cout << "right\n"; pos = pos + point{1, 0}; },
+  return std::visit(overloaded {
+      [&](up){ std::cout << "up\n"; return m.update_entities(
+        on_selected( [](const auto& e){ return e.move(point{0, -1}); } )
+      ); },
+      [&](down){ std::cout << "down\n"; return m.update_entities(
+        on_selected( [](const auto& e){ return e.move(point{0, 1}); } )
+      ); },
+      [&](left){ std::cout << "left\n"; return m.update_entities(
+        on_selected( [](const auto& e){ return e.move(point{-1, 0}); } )
+      ); },
+      [&](right){ std::cout << "right\n"; return m.update_entities(
+        on_selected( [](const auto& e){ return e.move(point{1, 0}); } )
+      ); },
   }, a);
-
-  return m;
 }
 
 void loop_handler(void *arg)
@@ -56,7 +70,7 @@ void run()
 
   auto m = model{}
     .add_entity(entity{drawable(rectangle(width{800}, height{600}, color::black())), orig})
-    .add_entity(entity{drawable(rectangle(width{150}, height{75}, color::red())), orig})
+    .add_entity(entity{drawable(rectangle(width{150}, height{75}, color::red())), orig, true})
     .add_entity(entity{drawable(line({300, 200}, {500, 400}, color::blue())), orig});
 
   ctx.current_model() = m;

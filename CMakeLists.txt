@@ -31,6 +31,7 @@ set(SOURCE_FILES
   src/draw/rectangle.cpp
   src/action.cpp
   src/entity.cpp
+  src/model.cpp
 )
 
 add_executable(em_test ${SOURCE_FILES})
