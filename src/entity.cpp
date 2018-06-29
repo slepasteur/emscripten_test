@@ -1,9 +1,10 @@
 #include "entity.h"
 
-entity::entity(drawable shape, point position, bool selected):
+entity::entity(drawable shape, point position):
   shape_{std::move(shape)},
   position_{std::move(position)},
-  selected_{selected}
+  bbox_{point{0, 0}, point{0, 0}},
+  selected_{false}
 {
 }
 
@@ -14,16 +15,29 @@ void entity::draw(sdl_renderer& renderer, const point& pos) const
 
 entity entity::select() const
 {
-  return {shape_, position_, true};
+  auto e = *this;
+  e.selected_ = true;
+  return e;
 }
 
 entity entity::deselect() const
 {
-  return {shape_, position_, false};
+  auto e = *this;
+  e.selected_ = false;
+  return e;
+}
+
+entity entity::with_bbox(bounding_box bbox) const
+{
+  auto e = *this;
+  e.bbox_ = std::move(bbox);
+  return e;
 }
 
 entity entity::move(const point& offset) const
 {
-  return {shape_, position_ + offset, selected_};
+  auto e = *this;
+  e.position_ = position_ + offset;
+  return e;
 }
 

@@ -22,6 +22,14 @@ auto on_selected(F f)
   };
 }
 
+template <typename F>
+auto on_colliding(point p, F&& f)
+{
+  return [f = std::forward<F>(f), p = std::move(p)](const auto& e) {
+    return is_within(p, e.bbox()) ? f(e) : e;
+  };
+}
+
 model update(model m, action a)
 {
   return std::visit(overloaded {
@@ -51,7 +59,9 @@ model update(model m, action a)
       },
       [&] (selection s) { 
         std::cout << "selecting: " << s.coordinates_.x() << ", " << s.coordinates_.y() << '\n';
-        return m;
+        return m.update_entities(
+          on_colliding( s.coordinates_, [](const auto& e){ return e.select(); } )
+        );
       }
   }, a);
 }
@@ -85,7 +95,10 @@ void run()
 
   auto m = model{}
     .add_entity(entity{drawable(rectangle(width{800}, height{600}, color::black())), orig})
-    .add_entity(entity{drawable(rectangle(width{150}, height{75}, color::red())), orig, true})
+    .add_entity(
+        entity{drawable(rectangle(width{150}, height{75}, color::red())), orig}
+        .with_bbox(bounding_box{point{0, 0}, width{150}, height{75}})
+    )
     .add_entity(entity{drawable(line({300, 200}, {500, 400}, color::blue())), orig});
 
   ctx.current_model() = m;

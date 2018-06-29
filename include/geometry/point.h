@@ -17,22 +17,22 @@ private:
   int y_;
 };
 
-inline point operator+(const point& lhs, const point& rhs)
+constexpr inline point operator+(const point& lhs, const point& rhs)
 {
   return {lhs.x() + rhs.x(), lhs.y() + rhs.y()};
 }
 
-inline point operator-(const point& lhs, const point& rhs)
+constexpr inline point operator-(const point& lhs, const point& rhs)
 {
   return {lhs.x() - rhs.x(), lhs.y() - rhs.y()};
 }
 
-inline bool operator==(const point& lhs, const point& rhs)
+constexpr inline bool operator==(const point& lhs, const point& rhs)
 {
   return lhs.x() == rhs.x() && lhs.y() == rhs.y();
 }
 
-inline bool operator!=(const point& lhs, const point& rhs)
+constexpr inline bool operator!=(const point& lhs, const point& rhs)
 {
   return !(lhs == rhs);
 }
