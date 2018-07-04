@@ -2,6 +2,7 @@
 #include <SDL2/SDL.h>
 #include <emscripten.h>
 #include <variant>
+#include <tuple>
 
 #include "draw/rectangle.h"
 #include "draw/line.h"
@@ -15,9 +16,9 @@ constexpr auto orig = point{0,0};
 point pos;
 
 template <typename F>
-auto on_selected(F f)
+auto on_selected(F&& f)
 {
-  return [f](const auto& e) {
+  return [f = std::forward<F>(f)](const auto& e) {
     return e.selected() ? f(e) : e;
   };
 }
@@ -30,37 +31,55 @@ auto on_colliding(point p, F&& f)
   };
 }
 
+/**
+ * Combine multiple functions to be applied on entities together.
+ */
+template <typename... Fs>
+auto all(Fs... fs)
+{
+  // Capture fs into a tuple, "accumulate" the result of each invocation of fs into e and finally
+  // return the "accumulated" value (i.e. return value of the last function).
+  return [fs = std::make_tuple(std::forward<Fs>(fs) ...)](const auto& e) {
+    return std::apply(
+      [&e](auto&& ... fs) {
+        auto updated_entity = e;
+        ((updated_entity = fs(updated_entity)), ...);
+        return updated_entity;
+      },
+      std::move(fs)
+    );
+  };
+}
+
 model update(model m, action a)
 {
   return std::visit(overloaded {
       [&] (up) {
-        std::cout << "up\n";
         return m.update_entities(
           on_selected( [](const auto& e){ return e.move(point{0, -1}); } )
         );
       },
       [&] (down) {
-        std::cout << "down\n";
         return m.update_entities(
           on_selected( [](const auto& e){ return e.move(point{0, 1}); } )
         );
       },
       [&] (left) {
-        std::cout << "left\n";
         return m.update_entities(
           on_selected( [](const auto& e){ return e.move(point{-1, 0}); } )
         );
       },
       [&] (right) {
-        std::cout << "right\n";
         return m.update_entities(
           on_selected( [](const auto& e){ return e.move(point{1, 0}); } )
         );
       },
       [&] (selection s) { 
-        std::cout << "selecting: " << s.coordinates_.x() << ", " << s.coordinates_.y() << '\n';
         return m.update_entities(
-          on_colliding( s.coordinates_, [](const auto& e){ return e.select(); } )
+          all(
+            on_selected( [](const auto& e){ return e.deselect(); } ),
+            on_colliding( s.coordinates_, [](const auto& e){ return e.select(); } )
+          )
         );
       }
   }, a);
