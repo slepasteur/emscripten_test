@@ -19,7 +19,7 @@ public:
   entity with_bbox(bounding_box bbox) const;
   entity move(const point& offset) const;
 
-  const bounding_box& bbox() const { return bbox_; }
+  bounding_box bbox() const;
   bool selected() const { return selected_; }
 
 private:

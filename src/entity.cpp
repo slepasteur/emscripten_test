@@ -41,3 +41,7 @@ entity entity::move(const point& offset) const
   return e;
 }
 
+bounding_box entity::bbox() const
+{
+  return bounding_box{bbox_.top_left() + position_, bbox_.bottom_right() + position_};
+}
