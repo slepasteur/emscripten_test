@@ -4,15 +4,17 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 project(em_test)
 set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
 
 # Emscripten configuration.
-set(EM_SDL_FLAGS " -s USE_SDL=2 -s USE_SDL_IMAGE=2 -s SDL2_IMAGE_FORMATS='[\"png\"]'")
-set(EM_FLAGS "${EM_SDL_FLAGS} -s EXPORTED_FUNCTIONS='[\"_em_main\"]' ")
-set(EM_FLAGS "${EM_FLAGS} -s \"EXTRA_EXPORTED_RUNTIME_METHODS=['ccall','cwrap']\" ")
-#set(EM_FLAGS "${EM_FLAGS} --preload-file assets ")
+set(EM_SDL_FLAGS " -s USE_SDL=2")
+set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} ${EM_SDL_FLAGS}")
 
-set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} ${EM_FLAGS}")
+# Compile as HTML
+set(EM_LINKER_FLAGS " --shell-file ${PROJECT_SOURCE_DIR}/resources/em_test_shell.html --emrun")
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${EM_LINKER_FLAGS}")
+set(CMAKE_EXECUTABLE_SUFFIX ".html")
 
 # Immer library path
 set(IMMER_LIBRARY_PATH "" CACHE FILEPATH "Path to immer library.")

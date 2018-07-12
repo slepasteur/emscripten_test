@@ -1,5 +1,15 @@
-Test project to test emscripten and SDL.
+Project to test emscripten and SDL.
 
-Dependencies:
+# Dependencies
 - Emscripten 1.37.36
 - Immer: https://github.com/arximboldi/immer
+
+# How to build
+`$ mkdir build && cd build`
+
+`$ emcmake cmake -DCMAKE_BUILD_TYPE=Rel -DIMMER_LIBRARY_PATH=/usr/local/include/immer -G "Unix Makefiles" ..`
+
+`$ emmake make`
+
+# How to run
+`$ emrun em_test.html`

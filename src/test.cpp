@@ -74,12 +74,20 @@ model update(model m, action a)
           on_selected( [](const auto& e){ return e.move(point{1, 0}); } )
         );
       },
-      [&] (selection s) { 
+      [&] (selection s) {
         return m.update_entities(
           all(
             on_selected( [](const auto& e){ return e.deselect(); } ),
             on_colliding( s.coordinates_, [](const auto& e){ return e.select(); } )
           )
+        );
+      },
+      [&] (insert_entity i) {
+        return m.add_entity(
+          entity{
+            drawable(rectangle(width{150}, height{75}, color::red())),
+            i.coordinates_
+          }.with_bbox(bounding_box{point{0,0}, width{150}, height{75}})
         );
       }
   }, a);
@@ -127,10 +135,4 @@ void run()
 int main() {
   run();
   return 0;
-}
-
-extern "C" {
-void em_main() {
-  run();
-}
 }

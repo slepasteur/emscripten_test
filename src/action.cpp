@@ -21,6 +21,9 @@ std::optional<action> intent(const SDL_Event& event)
       if (event.button.button == SDL_BUTTON_LEFT) {
         return {selection{{event.button.x, event.button.y}}};
       }
+      if (event.button.button == SDL_BUTTON_MIDDLE) {
+        return {insert_entity{{event.button.x, event.button.y}}};
+      }
       break;
   }
 
