@@ -5,11 +5,23 @@ Project to test emscripten and SDL.
 - Immer: https://github.com/arximboldi/immer
 
 # How to build
-`$ mkdir build && cd build`
+## Web
+`$ mkdir build_web && cd build_web`
 
-`$ emcmake cmake -DCMAKE_BUILD_TYPE=Rel -DIMMER_LIBRARY_PATH=/usr/local/include/immer -G "Unix Makefiles" ..`
+`$ emcmake cmake -DCMAKE_BUILD_TYPE=Rel -DIMMER_LIBRARY_PATH=/usr/local/include/immer ..`
 
 `$ emmake make`
 
+## Native
+`$ mkdir build_native && cd build_native`
+
+`$ cmake -DCMAKE_BUILD_TYPE=Rel -DIMMER_LIBRARY_PATH=/usr/local/include/immer ..`
+
+`$ make`
+
 # How to run
+## Web
 `$ emrun em_test.html`
+
+## Native
+`$ ./em_test`

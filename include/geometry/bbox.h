@@ -21,8 +21,8 @@ struct bounding_box
    bounding_box(top_left, point(top_left.x() + w.val, top_left.y() + h.val))
   {}
 
-  const point& top_left() const { return top_left_; }
-  const point& bottom_right() const { return bottom_right_; }
+  constexpr const point& top_left() const { return top_left_; }
+  constexpr const point& bottom_right() const { return bottom_right_; }
 
 private:
   point top_left_;
