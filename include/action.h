@@ -12,8 +12,9 @@ struct left{};
 struct right{};
 struct selection{ point coordinates_; };
 struct insert_entity{ point coordinates_; };
+struct quit{};
 
-using action = std::variant<up, down, left, right, selection, insert_entity>;
+using action = std::variant<up, down, left, right, selection, insert_entity, quit>;
 
 union SDL_Event;
 

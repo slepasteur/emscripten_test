@@ -47,6 +47,9 @@ model update(model m, action a)
             i.coordinates_
           }.with_bbox(bounding_box{point{0,0}, width{150}, height{75}})
         );
+      },
+      [&] (quit) {
+        return m.set_quit();
       }
   }, a);
 }

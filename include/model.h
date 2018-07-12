@@ -23,14 +23,17 @@ public:
   {
     return with_entities(transform(entities_, predicate, func));
   }
+
+  model set_quit() const;
   
   const immer::vector<entity>& entities() const { return entities_; }
+  bool should_quit() const { return quit_; }
 
 private:
-  model(immer::vector<entity> entities):
-    entities_{std::move(entities)}
-  {}
+  model(immer::vector<entity> entities, bool quit = false);
 
   immer::vector<entity> entities_;
+
+  bool quit_;
 };
 

@@ -25,6 +25,8 @@ std::optional<action> intent(const SDL_Event& event)
         return {insert_entity{{event.button.x, event.button.y}}};
       }
       break;
+    case SDL_QUIT:
+      return {quit{}};
   }
 
   return std::nullopt;

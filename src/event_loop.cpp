@@ -49,7 +49,7 @@ void run()
 #ifdef __EMSCRIPTEN__
   emscripten_set_main_loop_arg(em_loop_handler, &ctx, -1, 1);
 #else
-  while (true)
+  while (!ctx.current_model().should_quit())
   {
     step(ctx);
   }
